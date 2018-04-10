@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Dynamic context</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        const themes = {
+            light: {
+                foreground: '#ffffff',
+                background: '#256878',
+            },
+            dark: {
+                foreground: '#000000',
+                background: '#eeeeee',
+            },
+        };
+        const ThemeContext = React.createContext();
+        class App extends React.Component {
+            constructor(props){
+                super(props);
+                this.state ={
+                    theme: themes.light 
+                }
+            }
+            changeTheme = ()=> {
+                const currentTheme = this.state.theme;
+                this.setState({
+                    theme: currentTheme === themes.light ? themes.dark : themes.light
+                });
+            }
+            render(){
+                return (
+                    <ThemeContext.Provider value={this.state.theme}>
+                        <MyButton changeColor={this.changeTheme}/>
+                        <MyComponent/>
+                    </ThemeContext.Provider>
+                )
+            }
+        }
+
+        class MyButton extends React.Component {
+            clicked = ()=>{
+                this.props.changeColor();
+            }
+            render(){
+                return (
+                    <button onClick={this.clicked}>Click</button>
+                )
+            }
+        }
+
+        class MyComponent extends React.Component {
+            render(){
+                return (
+                    <ThemeContext.Consumer>
+                        {
+                            (color)=>{
+                                return (<div style={{backgroundColor: color.background}}>This is my component</div>)
+                            }
+                        }
+                    </ThemeContext.Consumer>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

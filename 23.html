@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-multiple/Nested contexts</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        const ThemeContext = React.createContext("red");
+        const LoggedInUser = React.createContext();
+        class App extends React.Component {
+            constructor(props){
+                super(props);
+            }
+            render(){
+                const User = {name:"Jogi",age:24};
+                return (
+                    <ThemeContext.Provider value="pink">
+                        <LoggedInUser.Provider value={User}>
+                            <MyComponent/>
+                        </LoggedInUser.Provider>
+                    </ThemeContext.Provider>
+                    
+                )
+            }
+        };
+        class MyComponent extends React.Component {
+            render(){
+                return (
+                    <React.Fragment>
+                        <UserDetails/>
+                    </React.Fragment>
+                )
+            }
+        }
+        function UserDetails(){
+            return (
+                <ThemeContext.Consumer>
+                    {
+                        (color)=> (
+                            <LoggedInUser.Consumer>
+                                {(user)=>{
+                                    return (
+                                        <div style={{background: color}}>
+                                            <h1>Name: {user.name}</h1>
+                                            <h1>Age: {user.age}</h1>
+                                        </div>
+                                    )
+                                }}
+                            </LoggedInUser.Consumer>
+                        )
+                    }
+                </ThemeContext.Consumer>
+            )
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

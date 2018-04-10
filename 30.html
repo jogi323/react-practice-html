@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Updating phase</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    name: ""
+                }
+            };
+            static getDerivedStateFromProps(){
+                console.log("getDerivedStateFromProps-parent");
+                return {name: "Chinna"};
+            }
+            componentDidMount(){
+                this.setState({
+                    name: "Jogi"
+                })
+            }
+            render(){
+                return <Child name={this.state.name}/>
+            }
+        };
+        class Child extends React.Component {
+            constructor(props){
+                super(props);
+                this.state={}
+            }
+            static getDerivedStateFromProps(newProps){
+                console.log(newProps)
+                console.log("getDerivedStateFromProps-child");
+                return null;
+            }
+            shouldComponentUpdate(){
+                console.log("shouldComponentUpdate");
+                return true;
+            };
+            getSnapshotBeforeUpdate(preProps,preState){
+                console.log(preProps,preState);
+                console.log(this.props);
+                console.log("getSnapshotBeforeUpdate");
+                return {age:24}
+            }
+            componentDidUpdate(prevProps, prevState, snapshot){
+                console.log("componentDidUpdate");
+                console.log(prevProps, prevState, snapshot);
+            }
+            render(){
+                return this.props.name;
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-IsValidElement or not</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            
+            render(){
+                const ele = "Jogi";
+                const newEle = React.createElement(
+                    "p",
+                    {className:"newElement"},
+                    "Created using React.createElement"
+                )
+                const check = React.isValidElement(newEle);
+                const check1 = React.isValidElement(ele);
+                return (
+                    <React.Fragment>
+                        <p>{check?"is a valid element":"Invalid element"}</p>
+                        <p>{check1?"is a valid element":"Invalid element"}</p>
+                    </React.Fragment>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Think in reactjs</title>
+    <script src="https://unpkg.com/react@16.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        class ProductCategory extends React.Component {
+            constructor(props){
+                super(props)
+            }
+            render(){
+                return (
+                    <tr>
+                        <th>{this.props.category}</th>
+                    </tr>
+                )
+            }
+        }
+
+        class ProductRow extends React.Component {
+            constructor(props){
+                super(props)
+            }
+            render(){
+                
+                return (
+                    <tr>
+                        <td>{this.props.product.stocked?this.props.product.name:<span style={{color:'red'}}>{this.props.product.name} </span>}</td>
+                        <td>{this.props.product.price}</td>
+                    </tr>
+                )
+            }
+        }
+
+        class ProductsTable extends React.Component {
+            constructor(props){
+                super(props);
+            }
+            render(){
+                let rows = [];
+                let lastCategory = null;
+                this.props.products.forEach(element => {
+                    if(element.name.toLowerCase().indexOf(this.props.filteredText.toLowerCase()) === -1) {
+                        return;
+                    }
+                    if(this.props.inStock && !element.stocked){
+                        return;
+                    }
+                    if(element.category !== lastCategory) {
+                        rows.push(<ProductCategory category={element.category} key={element.category}/>);
+                    }
+                    rows.push(
+                        <ProductRow product={element} key={element.name}/>
+                    );
+                    lastCategory = element.category;
+                });
+                return (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>                        
+                    </table>
+                )
+            }
+        }
+
+        class SearchBox extends React.Component {
+            constructor(props){
+                super(props);
+            }
+
+            inputChanged = (e) => {
+                this.props.serachTextChanged(e.target.value);
+            };
+            
+            handleInStockChange = (e) => {
+                this.props.inStockChanged(e.target.checked);
+            };
+
+            render(){
+                return (
+                    <React.Fragment>
+                        <input type="text" name="serachText" value = {this.props.serachText} onChange={this.inputChanged}/>
+                        <br/>
+                        <input type="checkbox" checked={this.props.inStockOnly} onChange={this.handleInStockChange}/>
+                        <span>Show products in stock only</span>
+                    </React.Fragment>
+                )
+            }
+        }
+
+
+        class MainComponent extends React.Component {
+            constructor(props){
+                super(props);
+                this.state = {
+                    serachText: '',
+                    inStockOnly: false 
+                }
+            }
+
+            textChanged = (value) => {
+                this.setState({
+                    serachText: value
+                });
+            }
+
+            stockChnged = (value) => {
+                this.setState({
+                    inStockOnly: value
+                });
+            };
+
+            render(){
+                return (
+                    <React.Fragment>
+                        <SearchBox serachText={this.state.serachText} inStockOnly={this.state.inStockOnly} serachTextChanged={this.textChanged} inStockChanged={this.stockChnged}/>
+                        <ProductsTable products={this.props.items} filteredText={this.state.serachText} inStock = {this.state.inStockOnly}/>
+                    </React.Fragment>
+                )
+            }
+        }
+        const PRODUCTS = [
+                    {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+                    {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+                    {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+                    {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+                    {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+                    {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+                ];
+        ReactDOM.render(
+            <MainComponent items = {PRODUCTS}/>,
+            root
+        )
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Forms and event handlers</title>
+    <script src="https://unpkg.com/react@16.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class Form extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    name:""
+                }
+            }
+            handleChange = (e) => {
+                this.setState({
+                    name: e.target.value
+                });
+            };
+            submit = (e) => {
+                e.preventDefault();
+                alert(this.state.name);
+            }
+            render() {
+                return (
+                    <React.Fragment>
+                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
+                    <input type="submit" onClick={this.submit} />
+                    </React.Fragment>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Form/>,
+            root
+        )
+   </script>
+</body>
+</html>

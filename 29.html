@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-16.3 Life cycles - Mounting phase</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    name: "ABD"
+                };
+                console.log("constructor will call 1st for initial rendering");
+                console.log(this.state);
+            }
+            static getDerivedStateFromProps(){
+                console.log("getDerivedStateFromProps");
+                return {name: "Virat",age:24};
+            }
+            componentDidMount(){
+                console.log("componentDidMount");
+                this.setState({
+                    name: "Jogi"
+                });
+                console.log(this.state);                
+            }
+            render(){
+                console.log("render");
+                console.log(this.state);
+                return `${this.state.name} and ${this.state.age}`
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

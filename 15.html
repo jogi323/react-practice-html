@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Error handling</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        const users = [{
+            name:"jogi",
+            id:1
+        },{
+            name:"chinna",
+            id:2
+        },{
+            id:3
+        }]
+        class Errors extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    hasError: false,
+                    info: ""
+                }
+            }
+            componentDidCatch(err,info){
+                this.setState({
+                    hasError: true,
+                    info: info
+                })
+            }
+            render (){
+                if (this.state.hasError) {
+                // You can render any custom fallback UI
+                return <h1>Something went wrong.{this.state.info.componentStack}</h1>;
+                }
+                return this.props.children;
+            }
+        } 
+        class Users extends React.Component {
+            constructor(props){
+                super(props);
+            }
+            render(){
+                console.log(this.props);
+                return (
+                    this.props.user.map((item)=> {
+                        return (
+                            <div key={item.id}>
+                                name: {item.name.toUpperCase()},
+                                id: {item.id}
+                            </div>
+                        )
+                    })
+                );
+            }
+        }
+        ReactDOM.render(
+            <Errors>
+                <Users user={users}/>
+            </Errors>,
+            root
+        )
+   </script>
+</body>
+</html>

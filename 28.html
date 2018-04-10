@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Pure component</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    name: "Jogi",
+                    obj: {
+                        age: 24,
+                        company: "Innominds"
+                    }
+                }
+            }
+            componentDidMount(){
+                this.setState({
+                    name: "Chinna"
+                })
+            }
+            shouldComponentUpdate(){
+                console.log("should update");
+                return true;
+            }
+            render(){
+                return (<Child name={this.state.name} obj={this.state.obj}/>)
+            }
+        }
+        class Child extends React.PureComponent {
+            render(){
+                return (
+                    <React.Fragment>
+                        <p>Name: {this.props.name}</p>
+                        <p>Age: {this.props.obj.age}</p>
+                        <p>Company: {this.props.obj.company}</p>
+                    </React.Fragment>
+                    );
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

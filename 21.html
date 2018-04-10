@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-Context API</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        const ColorContext = React.createContext("red");
+        class App extends React.Component {
+            render(){
+                return (
+                    <ColorContext.Provider value="grey">
+                        <ChildComponent/>
+                    </ColorContext.Provider>
+                )
+            }
+        };
+        function ChildComponent(props){
+            return <GrandChildren/>
+        };
+        class GrandChildren extends React.Component {
+            constructor(props){
+                super(props);
+            };
+
+            render(){
+                return (
+                    <ColorContext.Consumer>
+                        {(color)=>{console.log(color);console.log(ColorContext);const myStyles = {background:color};return <p style={myStyles}>Hello,the background color of paragraph is blue ,which we are getting from context API</p>;}}
+                    </ColorContext.Consumer>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            render(){
+                return (
+                    <Child>
+                        <GrandChild1/>
+                        <GrandChild2/>
+                        <GrandChild3/>
+                        <GrandChild4/>
+                    </Child>
+                )
+            }
+        }
+        function Child(props){
+            console.log(React.Children.toArray(props.children))
+            return (
+                <React.Fragment>
+                    {React.Children.map(props.children,(child)=>{
+                        return React.Children.toArray(props.children)
+                    })}
+                </React.Fragment>
+            )
+        }
+        function GrandChild1(){
+            return "This is grand children1"
+        }
+        function GrandChild2(){
+            return "This is grand children2"
+        }
+        function GrandChild3(){
+            return "This is grand children3"
+        }
+        function GrandChild4(){
+            return "This is grand children4"
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>

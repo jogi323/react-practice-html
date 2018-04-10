@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-conditional rendering and props</title>
+    <script src="https://unpkg.com/react@16.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        function sayHello(name){
+            return name;
+        };
+        
+        function GetUserDetails (props){
+            if(props.name && props.age ) {
+                return <h1>Hello,this is  {sayHello(props.name)} and age is {props.age}</h1>
+            }else {
+                return <h1>pass both name and age values.</h1>
+            }
+        };
+        const root = document.getElementById("root");
+        ReactDOM.render(
+            <div>
+                <GetUserDetails name="jogi" age={24}/>
+            </div>,
+            root
+        )
+   </script>
+</body>
+</html>
