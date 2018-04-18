@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Practice-prop types</title>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.32.1/react-bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+   <div id="root"></div> 
+   <script type="text/babel">
+        const root = document.getElementById("root");
+        class App extends React.Component {
+            constructor(){
+                super();
+                this.state = {
+                    showModel: false
+                };
+            }
+            open = () =>{
+                this.setState({ showModal: true });
+            };
+            close = () => {
+                this.setState({ showModal: false });
+            };
+            render(){
+                return (
+                    <div>
+                    <ReactBootstrap.Button bsStyle="primary" bsSize="large" onClick={this.open}>
+                        Launch demo modal
+                    </ReactBootstrap.Button>
+                    <ReactBootstrap.Modal show={this.state.showModal} onHide={this.close}>
+          <ReactBootstrap.Modal.Header closeButton>
+            <ReactBootstrap.Modal.Title>Modal heading</ReactBootstrap.Modal.Title>
+          </ReactBootstrap.Modal.Header>
+          <ReactBootstrap.Modal.Body>
+            <h4>Text in a modal</h4>
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+
+            <h4>Popover in a modal</h4>
+            
+
+            <hr />
+
+          </ReactBootstrap.Modal.Body>
+          <ReactBootstrap.Modal.Footer>
+            <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
+          </ReactBootstrap.Modal.Footer>
+        </ReactBootstrap.Modal>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            root
+        )
+   </script>
+</body>
+</html>
